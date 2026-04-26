@@ -1,0 +1,70 @@
+{
+    "app": {
+      "name": "نظام تخطيط موارد المؤسسات",
+      "welcome": "مرحباً",
+      "logout": "تسجيل الخروج"
+    },
+    "auth": {
+      "login": "تسجيل الدخول",
+      "register": "إنشاء حساب",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "username": "اسم المستخدم",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "forgotPassword": "هل نسيت كلمة المرور؟",
+      "dontHaveAccount": "ليس لديك حساب؟",
+      "alreadyHaveAccount": "لديك حساب بالفعل؟",
+      "signIn": "دخول",
+      "signUp": "إنشاء حساب"
+    },
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "hr": "الموارد البشرية",
+      "employees": "الموظفون",
+      "attendance": "الحضور",
+      "leaves": "الإجازات",
+      "payroll": "الرواتب",
+      "finance": "المالية",
+      "accounts": "دليل الحسابات",
+      "journal": "القيود المحاسبية",
+      "invoices": "الفواتير",
+      "reports": "التقارير",
+      "crm": "إدارة العملاء",
+      "leads": "العملاء المحتملون",
+      "crmAccounts": "الحسابات",
+      "contacts": "جهات الاتصال",
+      "opportunities": "الفرص",
+      "projects": "المشاريع",
+      "tasks": "المهام",
+      "taskBoard": "لوحة المهام"
+    },
+    "common": {
+      "search": "بحث",
+      "add": "إضافة",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "close": "إغلاق",
+      "actions": "إجراءات",
+      "status": "الحالة",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "loading": "جاري التحميل...",
+      "noData": "لا توجد بيانات",
+      "confirmDelete": "هل أنت متأكد من حذف هذا العنصر؟",
+      "success": "نجاح",
+      "error": "خطأ",
+      "warning": "تحذير",
+      "info": "معلومات"
+    },
+    "dashboard": {
+      "title": "لوحة التحكم",
+      "totalEmployees": "إجمالي الموظفين",
+      "activeProjects": "المشاريع النشطة",
+      "openTasks": "المهام المفتوحة",
+      "revenue": "الإيرادات",
+      "recentActivities": "الأنشطة الأخيرة",
+      "upcomingEvents": "الأحداث القادمة"
+    }
+  }
