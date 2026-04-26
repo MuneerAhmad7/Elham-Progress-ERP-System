@@ -1,0 +1,3199 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elham Progress - Enterprise ERP System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<style>
+:root {
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --primary-light: #3b82f6;
+  --secondary: #0891b2;
+  --success: #059669;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --info: #0284c7;
+  --bg-main: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --card: #ffffff;
+  --sidebar: #1e293b;
+  --sidebar-active: #334155;
+  --text: #0f172a;
+  --text-light: #64748b;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-main);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.hidden { display: none !important; }
+
+/* AUTH PAGES */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.auth-wrapper::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  top: -200px;
+  right: -200px;
+}
+.auth-card {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 1;
+}
+.auth-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.auth-logo i {
+  font-size: 56px;
+  color: var(--primary);
+  margin-bottom: 12px;
+  display: block;
+}
+.auth-logo h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.auth-logo p {
+  font-size: 14px;
+  color: var(--text-light);
+}
+.auth-card h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.auth-card > p {
+  color: var(--text-light);
+  margin-bottom: 32px;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* FORMS */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  transition: var(--transition);
+  background: #fafafa;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary { background: var(--bg-secondary); color: var(--text); }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-warning { background: var(--warning); color: white; }
+.btn-sm { padding: 8px 16px; font-size: 13px; }
+.btn-lg { padding: 14px 28px; font-size: 16px; }
+.btn-block { width: 100%; }
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 14px;
+}
+
+/* LAYOUT */
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 280px;
+  background: var(--sidebar);
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+.sidebar-header {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sidebar-header i {
+  font-size: 32px;
+  color: #818cf8;
+}
+.sidebar-header-info h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+.sidebar-header-info span {
+  font-size: 12px;
+  color: #94a3b8;
+}
+.nav-section {
+  padding: 16px 20px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+  font-weight: 600;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 14px;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover {
+  background: var(--sidebar-active);
+  color: white;
+  padding-left: 24px;
+}
+.nav-item.active {
+  background: var(--sidebar-active);
+  color: white;
+  border-left-color: #818cf8;
+}
+.nav-item i {
+  width: 20px;
+  text-align: center;
+}
+.nav-item .badge {
+  margin-left: auto;
+  background: var(--danger);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  margin-left: 280px;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+.topbar {
+  background: white;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow-sm);
+}
+.topbar-left h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.search-box {
+  position: relative;
+  width: 300px;
+}
+.search-box input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 2px solid var(--border);
+  border-radius: 24px;
+  font-size: 14px;
+}
+.search-box i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+.topbar-icon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-light);
+  background: var(--bg-secondary);
+}
+.topbar-icon:hover {
+  background: var(--border);
+  color: var(--primary);
+}
+.topbar-icon .dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background: var(--danger);
+  border-radius: 50%;
+  border: 2px solid white;
+}
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+.user-menu:hover {
+  background: var(--bg-secondary);
+}
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+.user-info .name {
+  font-size: 14px;
+  font-weight: 600;
+}
+.user-info .role {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: relative;
+}
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  padding: 8px;
+  z-index: 1000;
+  border: 1px solid var(--border);
+  display: none;
+}
+.dropdown-menu.show {
+  display: block;
+}
+.dropdown-item {
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: var(--transition);
+}
+.dropdown-item:hover {
+  background: var(--bg-secondary);
+}
+
+/* PAGE CONTENT */
+.page-content {
+  padding: 32px;
+  flex: 1;
+}
+
+/* STATS GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+.stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+.stat-info h3 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.stat-info p {
+  color: var(--text-light);
+  font-size: 14px;
+}
+.stat-change {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+.stat-change.up { color: var(--success); }
+.stat-change.down { color: var(--danger); }
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.stat-icon.blue { background: #dbeafe; color: var(--info); }
+.stat-icon.green { background: #dcfce7; color: var(--success); }
+.stat-icon.yellow { background: #fef3c7; color: var(--warning); }
+.stat-icon.red { background: #fee2e2; color: var(--danger); }
+.stat-icon.purple { background: #f3e8ff; color: #a855f7; }
+
+/* CARDS */
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+  border: 1px solid #f1f5f9;
+}
+.card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.card-body {
+  padding: 24px;
+}
+.card-body.no-padding {
+  padding: 0;
+}
+
+/* TABLES */
+.table-container {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead {
+  background: var(--bg-secondary);
+}
+th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border);
+}
+td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+tr:hover {
+  background: var(--bg-main);
+}
+
+/* BADGES */
+.badge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+.badge-success { background: #dcfce7; color: #16a34a; }
+.badge-warning { background: #fef3c7; color: #d97706; }
+.badge-danger { background: #fee2e2; color: #dc2626; }
+.badge-info { background: #dbeafe; color: #0284c7; }
+.badge-purple { background: #f3e8ff; color: #9333ea; }
+.badge-gray { background: #f1f5f9; color: #64748b; }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.9);
+  transition: var(--transition);
+}
+.modal-overlay.active .modal {
+  transform: scale(1);
+}
+.modal-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 20px;
+}
+.modal-close:hover {
+  background: var(--danger);
+  color: white;
+}
+.modal-body {
+  padding: 24px;
+}
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: var(--bg-secondary);
+}
+
+/* TOAST */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.toast {
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideIn 0.3s ease;
+  min-width: 320px;
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.toast-success { background: var(--success); }
+.toast-error { background: var(--danger); }
+.toast-warning { background: var(--warning); }
+.toast-info { background: var(--info); }
+
+/* LOADING */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-light);
+}
+.loading i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  animation: spin 1s linear infinite;
+  color: var(--primary);
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-light);
+}
+.empty-state i {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+.empty-state h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+/* GRID */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  height: 8px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+.progress.blue { background: var(--primary); }
+.progress.green { background: var(--success); }
+.progress.yellow { background: var(--warning); }
+.progress.red { background: var(--danger); }
+
+/* CHART */
+.chart-container {
+  position: relative;
+  height: 300px;
+}
+
+/* KANBAN */
+.kanban-board {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 20px;
+}
+.kanban-column {
+  min-width: 320px;
+  flex: 1;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+.kanban-card {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  border-left: 3px solid transparent;
+}
+.kanban-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.kanban-card.priority-high { border-left-color: var(--danger); }
+.kanban-card.priority-medium { border-left-color: var(--warning); }
+.kanban-card.priority-low { border-left-color: var(--success); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .main-content {
+    margin-left: 0;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .grid-2, .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .search-box {
+    display: none;
+  }
+}
+
+/* ALERT */
+.alert {
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+.alert-info {
+  background: #dbeafe;
+  color: #1e40af;
+  border-left: 4px solid #1e40af;
+}
+.alert-success {
+  background: #dcfce7;
+  color: #16a34a;
+  border-left: 4px solid #16a34a;
+}
+.alert-warning {
+  background: #fef3c7;
+  color: #d97706;
+  border-left: 4px solid #d97706;
+}
+.alert-danger {
+  background: #fee2e2;
+  color: #dc2626;
+  border-left: 4px solid #dc2626;
+}
+
+.divider {
+  text-align: center;
+  margin: 24px 0;
+  position: relative;
+}
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+.divider span {
+  background: white;
+  padding: 0 16px;
+  position: relative;
+  color: var(--text-light);
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- AUTH PAGES -->
+<div id="authPages">
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="auth-wrapper">
+<div class="auth-card">
+  <div class="auth-logo">
+    <i class="fas fa-building"></i>
+    <h2>Elham Progress</h2>
+    <p>Enterprise Resource Planning</p>
+  </div>
+  <h1>Welcome Back</h1>
+  <p>Sign in to access your dashboard</p>
+  <form onsubmit="handleLogin(event); return false;">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-input" id="loginUsername" placeholder="Enter username" required>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-input" id="loginPassword" placeholder="Enter password" required>
+    </div>
+    <div class="form-group" style="display:flex;justify-content:space-between;align-items:center">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px">
+        <input type="checkbox"> Remember me
+      </label>
+      <button type="button" class="btn-link" onclick="showPage('forgot')">Forgot Password?</button>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginBtn">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </button>
+  </form>
+  <div class="divider"><span>OR</span></div>
+  <p style="text-align:center;font-size:14px;color:var(--text-light)">
+    Don't have an account? 
+    <button type="button" class="btn-link" onclick="showPage('register')">Create Account</button>
+  </p>
+</div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div id="registerPage" class="auth-wrapper hidden">
+<div class="auth-card">
+  <div class="auth-logo">
+    <i class="fas fa-building"></i>
+    <h2>Elham Progress</h2>
+    <p>Enterprise Resource Planning</p>
+  </div>
+  <h1>Create Account</h1>
+  <p>Get started with your ERP system</p>
+  
+  <div id="invitationAlert" class="alert alert-info hidden">
+    <i class="fas fa-info-circle"></i>
+    <span>Creating account for: <strong id="inviteEmail"></strong> as <strong id="inviteRole"></strong></span>
+  </div>
+  
+  <form onsubmit="handleRegister(event); return false;">
+    <input type="hidden" id="regInviteCode">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" class="form-input" id="regFullName" placeholder="John Doe" required>
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="form-input" id="regUsername" placeholder="johndoe" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" class="form-input" id="regEmail" placeholder="john@company.com" required>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-input" id="regPassword" placeholder="Min 6 characters" required minlength="6">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" class="form-input" id="regConfirmPassword" placeholder="Re-enter password" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-lg" id="registerBtn">
+      <i class="fas fa-user-plus"></i> Create Account
+    </button>
+  </form>
+  <p style="text-align:center;margin-top:24px;font-size:14px;color:var(--text-light)">
+    Already have an account? 
+    <button type="button" class="btn-link" onclick="showPage('login')">Sign In</button>
+  </p>
+</div>
+</div>
+
+<!-- FORGOT PASSWORD PAGE -->
+<div id="forgotPage" class="auth-wrapper hidden">
+<div class="auth-card">
+  <div class="auth-logo">
+    <i class="fas fa-key"></i>
+    <h2>Reset Password</h2>
+  </div>
+  <h1>Forgot Password?</h1>
+  <p>Enter your email to receive reset instructions</p>
+  <form onsubmit="handleForgotPassword(event); return false;">
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" class="form-input" id="forgotEmail" placeholder="your@email.com" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-lg" id="forgotBtn">
+      <i class="fas fa-paper-plane"></i> Send Reset Link
+    </button>
+  </form>
+  <p style="text-align:center;margin-top:24px;font-size:14px;color:var(--text-light)">
+    Remember your password? 
+    <button type="button" class="btn-link" onclick="showPage('login')">Sign In</button>
+  </p>
+</div>
+</div>
+
+<!-- RESET PASSWORD PAGE -->
+<div id="resetPage" class="auth-wrapper hidden">
+<div class="auth-card">
+  <div class="auth-logo">
+    <i class="fas fa-lock"></i>
+    <h2>New Password</h2>
+  </div>
+  <h1>Reset Password</h1>
+  <p>Enter your new password</p>
+  <form onsubmit="handleResetPassword(event); return false;">
+    <input type="hidden" id="resetToken">
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" class="form-input" id="resetPassword" placeholder="Min 6 characters" required minlength="6">
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" class="form-input" id="resetConfirmPassword" placeholder="Re-enter password" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-lg" id="resetBtn">
+      <i class="fas fa-check"></i> Reset Password
+    </button>
+  </form>
+</div>
+</div>
+
+</div>
+
+<!-- APP LAYOUT -->
+<div id="appLayout" class="app-wrapper hidden">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <i class="fas fa-building"></i>
+    <div class="sidebar-header-info">
+      <h2>Elham Progress</h2>
+      <span>ERP System</span>
+    </div>
+  </div>
+  
+  <nav class="sidebar-nav" id="sidebarNav">
+    <!-- Navigation will be rendered based on user role -->
+  </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1 id="pageTitle">Dashboard</h1>
+      <div class="breadcrumb" id="breadcrumb">
+        <i class="fas fa-home"></i> Home / Dashboard
+      </div>
+    </div>
+    
+    <div class="topbar-right">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search..." id="globalSearch">
+      </div>
+      
+      <div class="topbar-icon">
+        <i class="fas fa-bell"></i>
+        <span class="dot"></span>
+      </div>
+      
+      <div class="dropdown">
+        <div class="user-menu" onclick="toggleDropdown('userDropdown')">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-info">
+            <div class="name" id="userName">Admin</div>
+            <div class="role" id="userRole">Administrator</div>
+          </div>
+          <i class="fas fa-chevron-down" style="font-size:12px;color:var(--text-light)"></i>
+        </div>
+        <div class="dropdown-menu" id="userDropdown">
+          <div class="dropdown-item" onclick="navigateTo('profile')">
+            <i class="fas fa-user"></i> My Profile
+          </div>
+          <div class="dropdown-item" onclick="navigateTo('settings')">
+            <i class="fas fa-cog"></i> Settings
+          </div>
+          <div class="dropdown-item" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="page-content" id="pageContent">
+    <div class="loading">
+      <i class="fas fa-spinner"></i>
+      <p>Loading...</p>
+    </div>
+  </div>
+</main>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Modal</h3>
+      <button class="modal-close" onclick="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<script>
+// ==================== CONFIGURATION ====================
+const API_URL = 'http://localhost:8000/api';
+
+// ==================== STATE ====================
+const store = {
+  token: localStorage.getItem('token') || null,
+  user: JSON.parse(localStorage.getItem('user') || 'null'),
+  permissions: JSON.parse(localStorage.getItem('permissions') || 'null'),
+  currentPage: 'dashboard',
+  data: {
+    employees: [],
+    projects: [],
+    tasks: [],
+    leads: [],
+    invoices: [],
+    invitations: []
+  }
+};
+
+// ==================== ROLE PERMISSIONS ====================
+const ROLE_INFO = {
+  ceo: { label: 'Chief Executive Officer', color: 'purple' },
+  hr_manager: { label: 'HR Manager', color: 'blue' },
+  accountant: { label: 'Accountant', color: 'green' },
+  project_manager: { label: 'Project Manager', color: 'yellow' },
+  employee: { label: 'Employee', color: 'gray' }
+};
+
+const NAV_STRUCTURE = {
+  dashboard: { icon: 'th-large', label: 'Dashboard', section: 'Main' },
+  employees: { icon: 'users', label: 'Employees', section: 'HR' },
+  attendance: { icon: 'clock', label: 'Attendance', section: 'HR' },
+  leaves: { icon: 'calendar-minus', label: 'Leaves', section: 'HR', badge: 3 },
+  payroll: { icon: 'money-check-alt', label: 'Payroll', section: 'HR' },
+  accounts: { icon: 'book', label: 'Chart of Accounts', section: 'Finance' },
+  journal: { icon: 'edit', label: 'Journal Entries', section: 'Finance' },
+  invoices: { icon: 'file-invoice-dollar', label: 'Invoices', section: 'Finance' },
+  reports: { icon: 'chart-line', label: 'Reports', section: 'Finance' },
+  leads: { icon: 'funnel-dollar', label: 'Leads', section: 'CRM' },
+  contacts: { icon: 'address-book', label: 'Contacts', section: 'CRM' },
+  opportunities: { icon: 'handshake', label: 'Opportunities', section: 'CRM' },
+  projects: { icon: 'project-diagram', label: 'Projects', section: 'Projects' },
+  tasks: { icon: 'tasks', label: 'Tasks', section: 'Projects' },
+  taskboard: { icon: 'columns', label: 'Kanban Board', section: 'Projects' },
+  settings: { icon: 'cog', label: 'Settings', section: 'Settings' },
+  invitations: { icon: 'envelope', label: 'Invitations', section: 'Settings' }
+};
+
+// ==================== API ====================
+const api = {
+  async request(method, endpoint, body = null) {
+    const headers = {};
+    
+    if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+    
+    if (store.token) {
+      headers['Authorization'] = `Bearer ${store.token}`;
+    }
+    
+    const options = { method, headers };
+    
+    if (body && method !== 'GET') {
+      options.body = body instanceof FormData ? body : JSON.stringify(body);
+    }
+    
+    try {
+      const response = await fetch(`${API_URL}${endpoint}`, options);
+      
+      if (response.status === 401) {
+        handleLogout();
+        throw new Error('Session expired');
+      }
+      
+      if (!response.ok) {
+        const contentType = response.headers.get("content-type");
+        let errorMessage = 'Request failed';
+        
+        if (contentType?.includes("application/json")) {
+          const err = await response.json();
+          errorMessage = err.detail || err.message || 'Request failed';
+        } else {
+          errorMessage = await response.text() || 'Request failed';
+        }
+        
+        throw new Error(errorMessage);
+      }
+      
+      const contentType = response.headers.get("content-type");
+      if (contentType?.includes("application/json")) {
+        return await response.json();
+      }
+      
+      return null;
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        showToast('Cannot connect to server. Make sure backend is running.', 'error');
+      } else if (error.message !== 'Session expired') {
+        showToast(error.message, 'error');
+      }
+      throw error;
+    }
+  },
+  
+  get(e) { return this.request('GET', e); },
+  post(e, d) { return this.request('POST', e, d); },
+  put(e, d) { return this.request('PUT', e, d); },
+  delete(e) { return this.request('DELETE', e); },
+
+  auth: {
+    async login(c) { 
+      const fd = new FormData();
+      fd.append('username', c.username);
+      fd.append('password', c.password);
+      return api.request('POST', '/auth/login', fd);
+    },
+    register(d) { return api.post('/auth/register', d); },
+    me() { return api.get('/auth/me'); },
+    permissions() { return api.get('/auth/permissions'); },
+    invite(d) { return api.post('/auth/invite', d); },
+    getInvitations() { return api.get('/auth/invitations'); },
+    verifyInvite(c) { return api.get(`/auth/verify-invitation/${c}`); },
+    forgotPassword(d) { return api.post('/auth/forgot-password', d); },
+    resetPassword(d) { return api.post('/auth/reset-password', d); }
+  },
+  
+  hr: {
+    getEmployees() { return api.get('/hr/employees'); },
+    createEmployee(d) { return api.post('/hr/employees', d); },
+    updateEmployee(id, d) { return api.put(`/hr/employees/${id}`, d); },
+    deleteEmployee(id) { return api.delete(`/hr/employees/${id}`); },
+    getAttendance() { return api.get('/hr/attendance'); },
+    markAttendance(d) { return api.post('/hr/attendance', d); },
+    getLeaves() { return api.get('/hr/leaves'); },
+    createLeave(d) { return api.post('/hr/leaves', d); },
+    approveLeave(id, d) { return api.put(`/hr/leaves/${id}`, d); },
+    getPayroll() { return api.get('/hr/payroll'); }
+  },
+  
+  finance: {
+    getAccounts() { return api.get('/finance/accounts'); },
+    createAccount(d) { return api.post('/finance/accounts', d); },
+    getJournalEntries() { return api.get('/finance/journal-entries'); },
+    createJournalEntry(d) { return api.post('/finance/journal-entries', d); },
+    getInvoices() { return api.get('/finance/invoices'); },
+    createInvoice(d) { return api.post('/finance/invoices', d); }
+  },
+  
+  crm: {
+    getLeads() { return api.get('/crm/leads'); },
+    createLead(d) { return api.post('/crm/leads', d); },
+    updateLead(id, d) { return api.put(`/crm/leads/${id}`, d); },
+    getContacts() { return api.get('/crm/contacts'); },
+    createContact(d) { return api.post('/crm/contacts', d); },
+    getOpportunities() { return api.get('/crm/opportunities'); },
+    createOpportunity(d) { return api.post('/crm/opportunities', d); }
+  },
+  
+  projects: {
+    getAll() { return api.get('/projects'); },
+    create(d) { return api.post('/projects', d); },
+    update(id, d) { return api.put(`/projects/${id}`, d); },
+    delete(id) { return api.delete(`/projects/${id}`); }
+  },
+  
+  tasks: {
+    getAll() { return api.get('/tasks'); },
+    create(d) { return api.post('/tasks', d); },
+    update(id, d) { return api.put(`/tasks/${id}`, d); },
+    delete(id) { return api.delete(`/tasks/${id}`); }
+  }
+};
+
+// ==================== UTILITIES ====================
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const icons = { success: 'check-circle', error: 'exclamation-circle', warning: 'exclamation-triangle', info: 'info-circle' };
+  
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `<i class="fas fa-${icons[type]}"></i> <span>${message}</span>`;
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 5000);
+}
+
+function openModal(title, bodyHtml, footerHtml = '') {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = bodyHtml;
+  document.getElementById('modalFooter').innerHTML = footerHtml;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+
+document.getElementById('modalOverlay')?.addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+function toggleDropdown(id) {
+  const dropdown = document.getElementById(id);
+  dropdown?.classList.toggle('show');
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.dropdown')) {
+    document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+  }
+});
+
+// ==================== NAVIGATION ====================
+function showPage(page) {
+  const pages = ['login', 'register', 'forgot', 'reset'];
+  pages.forEach(p => {
+    const el = document.getElementById(`${p}Page`);
+    if (el) el.classList.toggle('hidden', p !== page);
+  });
+}
+
+function renderSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  if (!nav || !store.permissions) return;
+  
+  const allowedModules = store.permissions.modules || [];
+  const sections = {};
+  
+  allowedModules.forEach(module => {
+    const info = NAV_STRUCTURE[module];
+    if (info) {
+      if (!sections[info.section]) sections[info.section] = [];
+      sections[info.section].push({ module, ...info });
+    }
+  });
+  
+  let html = '';
+  Object.entries(sections).forEach(([section, items]) => {
+    html += `<div class="nav-section">${section}</div>`;
+    items.forEach(item => {
+      html += `
+        <div class="nav-item" onclick="navigateTo('${item.module}')">
+          <i class="fas fa-${item.icon}"></i>
+          <span>${item.label}</span>
+          ${item.badge ? `<span class="badge">${item.badge}</span>` : ''}
+        </div>
+      `;
+    });
+  });
+  
+  html += `
+    <div class="nav-section">Account</div>
+    <div class="nav-item" onclick="handleLogout()">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </div>
+  `;
+  
+  nav.innerHTML = html;
+}
+
+function navigateTo(page) {
+  if (!store.permissions?.modules.includes(page) && page !== 'profile' && page !== 'settings') {
+    showToast('You don\'t have access to this module', 'warning');
+    return;
+  }
+  
+  store.currentPage = page;
+  
+  // Update URL without page reload
+  const url = page === 'dashboard' ? '/' : `/${page}`;
+  window.history.pushState({ page }, '', url);
+  
+  const info = NAV_STRUCTURE[page] || { label: 'Page' };
+  document.getElementById('pageTitle').textContent = info.label;
+  document.getElementById('breadcrumb').innerHTML = `
+    <i class="fas fa-home"></i> ${info.section || 'Home'} / ${info.label}
+  `;
+  
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('onclick')?.includes(`'${page}'`)) {
+      item.classList.add('active');
+    }
+  });
+  
+  document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+  
+  renderPage(page);
+}
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', (event) => {
+  if (event.state?.page) {
+    store.currentPage = event.state.page;
+    renderPage(event.state.page);
+    
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+      if (item.getAttribute('onclick')?.includes(`'${event.state.page}'`)) {
+        item.classList.add('active');
+      }
+    });
+  } else {
+    const path = window.location.pathname.slice(1) || 'dashboard';
+    navigateTo(path);
+  }
+});
+
+function enterApp() {
+  document.getElementById('authPages').classList.add('hidden');
+  document.getElementById('appLayout').classList.remove('hidden');
+  
+  if (store.user) {
+    const userName = store.user.full_name || store.user.username;
+    const roleInfo = ROLE_INFO[store.user.role] || { label: 'User' };
+    
+    document.getElementById('userName').textContent = userName;
+    document.getElementById('userRole').textContent = roleInfo.label;
+    document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
+  }
+  
+  renderSidebar();
+  
+  // Handle direct URL access
+  const path = window.location.pathname.slice(1);
+  const targetPage = path && store.permissions?.modules.includes(path) ? path : 'dashboard';
+  navigateTo(targetPage);
+}
+
+// ==================== AUTH HANDLERS ====================
+async function handleLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  btn.innerHTML = '<span class="spinner"></span> Signing in...';
+  btn.disabled = true;
+  
+  try {
+    const data = await api.auth.login({
+      username: document.getElementById('loginUsername').value,
+      password: document.getElementById('loginPassword').value
+    });
+    
+    store.token = data.access_token;
+    store.user = data.user;
+    localStorage.setItem('token', data.access_token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    
+    const permissions = await api.auth.permissions();
+    store.permissions = permissions;
+    localStorage.setItem('permissions', JSON.stringify(permissions));
+    
+    showToast('Login successful!', 'success');
+    
+    setTimeout(() => {
+      enterApp();
+    }, 500);
+    
+  } catch (error) {
+    console.error('Login error:', error);
+  } finally {
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+    btn.disabled = false;
+  }
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  
+  const password = document.getElementById('regPassword').value;
+  const confirm = document.getElementById('regConfirmPassword').value;
+  
+  if (password !== confirm) {
+    showToast('Passwords do not match', 'error');
+    return;
+  }
+  
+  const btn = document.getElementById('registerBtn');
+  btn.innerHTML = '<span class="spinner"></span> Creating account...';
+  btn.disabled = true;
+  
+  try {
+    const userData = {
+      username: document.getElementById('regUsername').value,
+      email: document.getElementById('regEmail').value,
+      password: password,
+      full_name: document.getElementById('regFullName').value,
+      invitation_code: document.getElementById('regInviteCode').value || null
+    };
+    
+    await api.auth.register(userData);
+    
+    showToast('Account created! Please login.', 'success');
+    
+    document.getElementById('loginUsername').value = userData.username;
+    
+    setTimeout(() => {
+      showPage('login');
+    }, 1500);
+    
+  } catch (error) {
+    console.error('Registration error:', error);
+  } finally {
+    btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+    btn.disabled = false;
+  }
+}
+
+async function handleForgotPassword(e) {
+  e.preventDefault();
+  const btn = document.getElementById('forgotBtn');
+  btn.innerHTML = '<span class="spinner"></span> Sending...';
+  btn.disabled = true;
+  
+  try {
+    await api.auth.forgotPassword({
+      email: document.getElementById('forgotEmail').value
+    });
+    
+    showToast('Reset link sent to your email!', 'success');
+    
+    setTimeout(() => {
+      showPage('login');
+    }, 2000);
+    
+  } catch (error) {
+    console.error('Forgot password error:', error);
+  } finally {
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
+    btn.disabled = false;
+  }
+}
+
+async function handleResetPassword(e) {
+  e.preventDefault();
+  
+  const password = document.getElementById('resetPassword').value;
+  const confirm = document.getElementById('resetConfirmPassword').value;
+  
+  if (password !== confirm) {
+    showToast('Passwords do not match', 'error');
+    return;
+  }
+  
+  const btn = document.getElementById('resetBtn');
+  btn.innerHTML = '<span class="spinner"></span> Resetting...';
+  btn.disabled = true;
+  
+  try {
+    await api.auth.resetPassword({
+      token: document.getElementById('resetToken').value,
+      new_password: password
+    });
+    
+    showToast('Password reset successfully!', 'success');
+    
+    setTimeout(() => {
+      showPage('login');
+    }, 1500);
+    
+  } catch (error) {
+    console.error('Reset password error:', error);
+  } finally {
+    btn.innerHTML = '<i class="fas fa-check"></i> Reset Password';
+    btn.disabled = false;
+  }
+}
+
+function handleLogout() {
+  store.token = null;
+  store.user = null;
+  store.permissions = null;
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('permissions');
+  window.history.pushState({}, '', '/');
+  showPage('login');
+  showToast('Logged out successfully', 'info');
+}
+
+// ==================== PAGE RENDERER ====================
+function renderPage(page) {
+  const content = document.getElementById('pageContent');
+  content.innerHTML = '<div class="loading"><i class="fas fa-spinner"></i><p>Loading...</p></div>';
+  
+  const pages = {
+    dashboard: renderDashboard,
+    employees: renderEmployees,
+    attendance: renderAttendance,
+    leaves: renderLeaves,
+    payroll: renderPayroll,
+    accounts: renderAccounts,
+    journal: renderJournal,
+    invoices: renderInvoices,
+    reports: renderReports,
+    leads: renderLeads,
+    contacts: renderContacts,
+    opportunities: renderOpportunities,
+    projects: renderProjects,
+    tasks: renderTasks,
+    taskboard: renderTaskBoard,
+    settings: renderSettings,
+    invitations: renderInvitations
+  };
+  
+  if (pages[page]) {
+    try {
+      pages[page](content);
+    } catch (error) {
+      console.error('Page render error:', error);
+      content.innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <div class="empty-state">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h3>Error Loading Page</h3>
+              <p>${error.message}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  } else {
+    content.innerHTML = `
+      <div class="card">
+        <div class="card-body">
+          <div class="empty-state">
+            <i class="fas fa-info-circle"></i>
+            <h3>Module: ${page}</h3>
+            <p>This module is under development</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// ==================== DASHBOARD ====================
+async function renderDashboard(container) {
+  container.innerHTML = `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3 id="dashEmployees">0</h3>
+          <p>Total Employees</p>
+          <div class="stat-change up"><i class="fas fa-arrow-up"></i> 12% from last month</div>
+        </div>
+        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3 id="dashRevenue">$0</h3>
+          <p>Monthly Revenue</p>
+          <div class="stat-change up"><i class="fas fa-arrow-up"></i> 8% from last month</div>
+        </div>
+        <div class="stat-icon green"><i class="fas fa-dollar-sign"></i></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3 id="dashProjects">0</h3>
+          <p>Active Projects</p>
+          <div class="stat-change up"><i class="fas fa-arrow-up"></i> 3 new this month</div>
+        </div>
+        <div class="stat-icon purple"><i class="fas fa-project-diagram"></i></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3 id="dashTasks">0</h3>
+          <p>Pending Tasks</p>
+          <div class="stat-change down"><i class="fas fa-arrow-down"></i> 5% from last month</div>
+        </div>
+        <div class="stat-icon yellow"><i class="fas fa-tasks"></i></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-chart-line"></i> Revenue Overview</h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-project-diagram"></i> Project Status</h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-container"><canvas id="projectChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const [employees, projects, tasks] = await Promise.allSettled([
+      api.hr.getEmployees(),
+      api.projects.getAll(),
+      api.tasks.getAll()
+    ]);
+    
+    if (employees.status === 'fulfilled') {
+      document.getElementById('dashEmployees').textContent = employees.value.length;
+    }
+    if (projects.status === 'fulfilled') {
+      document.getElementById('dashProjects').textContent = projects.value.length;
+    }
+    if (tasks.status === 'fulfilled') {
+      const pending = tasks.value.filter(t => t.status !== 'Done').length;
+      document.getElementById('dashTasks').textContent = pending;
+    }
+  } catch(e) {}
+
+  setTimeout(() => {
+    const revCtx = document.getElementById('revenueChart');
+    if (revCtx && window.Chart) {
+      new Chart(revCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+          datasets: [{
+            label: 'Revenue',
+            data: [65000,72000,80000,75000,90000,95000],
+            borderColor: '#1e40af',
+            backgroundColor: 'rgba(30,64,175,0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+
+    const projCtx = document.getElementById('projectChart');
+    if (projCtx && window.Chart) {
+      new Chart(projCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Active','On Hold','Completed'],
+          datasets: [{
+            data: [8,3,12],
+            backgroundColor: ['#1e40af','#d97706','#059669']
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+  }, 100);
+}
+
+// ==================== EMPLOYEES ====================
+async function renderEmployees(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-users"></i> Employees</h3>
+        <div class="card-header-actions">
+          <button class="btn btn-primary" onclick="showAddEmployeeModal()">
+            <i class="fas fa-plus"></i> Add Employee
+          </button>
+        </div>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="employeesTable">
+              <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.hr.getEmployees();
+    renderEmployeeRows(data);
+  } catch (e) {
+    document.getElementById('employeesTable').innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-users"></i><h3>No Employees</h3></div></td></tr>';
+  }
+}
+
+function renderEmployeeRows(employees) {
+  const tbody = document.getElementById('employeesTable');
+  if (!employees.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-users"></i><h3>No Employees</h3></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = employees.map(emp => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="user-avatar" style="width:40px;height:40px">${emp.first_name[0]}${emp.last_name[0]}</div>
+          <div>
+            <strong>${emp.first_name} ${emp.last_name}</strong><br>
+            <small style="color:var(--text-light)">${emp.email}</small>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge badge-info">${emp.department}</span></td>
+      <td>${emp.position}</td>
+      <td><span class="badge ${emp.is_active ? 'badge-success' : 'badge-danger'}">${emp.is_active ? 'Active' : 'Inactive'}</span></td>
+      <td>
+        <button class="btn btn-icon btn-sm btn-secondary" onclick="editEmployee(${emp.id})"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-icon btn-sm btn-danger" onclick="deleteEmployee(${emp.id})"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function showAddEmployeeModal() {
+  openModal('Add Employee', `
+    <form id="addEmployeeForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" class="form-input" id="empFirstName" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" class="form-input" id="empLastName" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-input" id="empEmail" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Department</label>
+          <select class="form-input" id="empDept">
+            <option>Engineering</option>
+            <option>HR</option>
+            <option>Finance</option>
+            <option>Sales</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Position</label>
+          <input type="text" class="form-input" id="empPosition" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Salary</label>
+        <input type="number" class="form-input" id="empSalary">
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveEmployee()"><i class="fas fa-save"></i> Save</button>
+  `);
+}
+
+async function saveEmployee() {
+  try {
+    await api.hr.createEmployee({
+      first_name: document.getElementById('empFirstName').value,
+      last_name: document.getElementById('empLastName').value,
+      email: document.getElementById('empEmail').value,
+      department: document.getElementById('empDept').value,
+      position: document.getElementById('empPosition').value,
+      salary: parseFloat(document.getElementById('empSalary').value) || 0
+    });
+    showToast('Employee added!', 'success');
+    closeModal();
+    renderEmployees(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to add employee', 'error');
+  }
+}
+
+async function deleteEmployee(id) {
+  if (!confirm('Delete this employee?')) return;
+  try {
+    await api.hr.deleteEmployee(id);
+    showToast('Employee deleted!', 'success');
+    renderEmployees(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to delete employee', 'error');
+  }
+}
+
+// ==================== ATTENDANCE ====================
+async function renderAttendance(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-clock"></i> Attendance</h3>
+        <button class="btn btn-primary" onclick="showMarkAttendanceModal()">
+          <i class="fas fa-check"></i> Mark Attendance
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Hours</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceTable">
+              <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.hr.getAttendance();
+    const tbody = document.getElementById('attendanceTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-clock"></i><h3>No Attendance Records</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(a => `
+        <tr>
+          <td><strong>Employee #${a.employee_id}</strong></td>
+          <td>${a.date}</td>
+          <td>${a.check_in || '-'}</td>
+          <td>${a.check_out || '-'}</td>
+          <td>${a.hours_worked || '-'}</td>
+          <td><span class="badge badge-${a.status==='Present'?'success':'danger'}">${a.status}</span></td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('attendanceTable').innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-clock"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showMarkAttendanceModal() {
+  openModal('Mark Attendance', `
+    <form id="attendanceForm">
+      <div class="form-group">
+        <label>Employee ID</label>
+        <input type="number" class="form-input" id="attEmpId" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Check In</label>
+          <input type="time" class="form-input" id="attCheckIn" value="08:00">
+        </div>
+        <div class="form-group">
+          <label>Check Out</label>
+          <input type="time" class="form-input" id="attCheckOut" value="17:00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select class="form-input" id="attStatus">
+          <option>Present</option>
+          <option>Absent</option>
+          <option>Late</option>
+        </select>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveAttendance()"><i class="fas fa-save"></i> Save</button>
+  `);
+}
+
+async function saveAttendance() {
+  try {
+    await api.hr.markAttendance({
+      employee_id: parseInt(document.getElementById('attEmpId').value),
+      date: new Date().toISOString().split('T')[0],
+      check_in: document.getElementById('attCheckIn').value,
+      check_out: document.getElementById('attCheckOut').value,
+      status: document.getElementById('attStatus').value
+    });
+    showToast('Attendance marked!', 'success');
+    closeModal();
+    renderAttendance(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to mark attendance', 'error');
+  }
+}
+
+// ==================== LEAVES ====================
+async function renderLeaves(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-calendar-minus"></i> Leave Requests</h3>
+        <button class="btn btn-primary" onclick="showRequestLeaveModal()">
+          <i class="fas fa-plus"></i> Request Leave
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leavesTable">
+              <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.hr.getLeaves();
+    const tbody = document.getElementById('leavesTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-calendar-minus"></i><h3>No Leave Requests</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(l => `
+        <tr>
+          <td><strong>Employee #${l.employee_id}</strong></td>
+          <td><span class="badge badge-purple">${l.leave_type}</span></td>
+          <td>${l.start_date}</td>
+          <td>${l.end_date}</td>
+          <td><span class="badge badge-${l.status==='Approved'?'success':l.status==='Rejected'?'danger':'warning'}">${l.status}</span></td>
+          <td>
+            ${l.status==='Pending' ? `
+              <button class="btn btn-sm btn-success" onclick="approveLeave(${l.id},'Approved')"><i class="fas fa-check"></i></button>
+              <button class="btn btn-sm btn-danger" onclick="approveLeave(${l.id},'Rejected')"><i class="fas fa-times"></i></button>
+            ` : '-'}
+          </td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('leavesTable').innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-calendar-minus"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showRequestLeaveModal() {
+  openModal('Request Leave', `
+    <form id="leaveForm">
+      <div class="form-group">
+        <label>Employee ID</label>
+        <input type="number" class="form-input" id="leaveEmpId" required>
+      </div>
+      <div class="form-group">
+        <label>Leave Type</label>
+        <select class="form-input" id="leaveType">
+          <option>Annual</option>
+          <option>Sick</option>
+          <option>Emergency</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>From</label>
+          <input type="date" class="form-input" id="leaveFrom" required>
+        </div>
+        <div class="form-group">
+          <label>To</label>
+          <input type="date" class="form-input" id="leaveTo" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Reason</label>
+        <textarea class="form-textarea" id="leaveReason"></textarea>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="submitLeave()"><i class="fas fa-paper-plane"></i> Submit</button>
+  `);
+}
+
+async function submitLeave() {
+  try {
+    await api.hr.createLeave({
+      employee_id: parseInt(document.getElementById('leaveEmpId').value),
+      leave_type: document.getElementById('leaveType').value,
+      start_date: document.getElementById('leaveFrom').value,
+      end_date: document.getElementById('leaveTo').value,
+      reason: document.getElementById('leaveReason').value
+    });
+    showToast('Leave request submitted!', 'success');
+    closeModal();
+    renderLeaves(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to submit leave', 'error');
+  }
+}
+
+async function approveLeave(id, status) {
+  try {
+    await api.hr.approveLeave(id, { status });
+    showToast(`Leave ${status.toLowerCase()}!`, 'success');
+    renderLeaves(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to update leave', 'error');
+  }
+}
+
+// ==================== PAYROLL ====================
+async function renderPayroll(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-money-check-alt"></i> Payroll</h3>
+      </div>
+      <div class="card-body">
+        <div class="empty-state">
+          <i class="fas fa-money-check-alt"></i>
+          <h3>Payroll Module</h3>
+          <p>Generate and manage employee payroll</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ==================== ACCOUNTS ====================
+async function renderAccounts(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-book"></i> Chart of Accounts</h3>
+        <button class="btn btn-primary" onclick="showAddAccountModal()">
+          <i class="fas fa-plus"></i> Add Account
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Balance</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="accountsTable">
+              <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.finance.getAccounts();
+    const tbody = document.getElementById('accountsTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-book"></i><h3>No Accounts</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(a => `
+        <tr>
+          <td><strong>${a.code}</strong></td>
+          <td>${a.name}</td>
+          <td><span class="badge badge-${a.type==='Asset'?'info':'success'}">${a.type}</span></td>
+          <td><strong>$${a.balance.toLocaleString()}</strong></td>
+          <td>
+            <button class="btn btn-icon btn-sm btn-secondary"><i class="fas fa-edit"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('accountsTable').innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-book"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showAddAccountModal() {
+  openModal('Add Account', `
+    <form id="accountForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Code</label>
+          <input type="text" class="form-input" id="accCode" required>
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <select class="form-input" id="accType">
+            <option>Asset</option>
+            <option>Liability</option>
+            <option>Equity</option>
+            <option>Revenue</option>
+            <option>Expense</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-input" id="accName" required>
+      </div>
+      <div class="form-group">
+        <label>Opening Balance</label>
+        <input type="number" class="form-input" id="accBalance" value="0">
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveAccount()"><i class="fas fa-save"></i> Save</button>
+  `);
+}
+
+async function saveAccount() {
+  try {
+    await api.finance.createAccount({
+      code: document.getElementById('accCode').value,
+      name: document.getElementById('accName').value,
+      type: document.getElementById('accType').value,
+      balance: parseFloat(document.getElementById('accBalance').value)
+    });
+    showToast('Account created!', 'success');
+    closeModal();
+    renderAccounts(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to create account', 'error');
+  }
+}
+
+// ==================== JOURNAL ====================
+async function renderJournal(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-edit"></i> Journal Entries</h3>
+        <button class="btn btn-primary" onclick="showAddJournalModal()">
+          <i class="fas fa-plus"></i> New Entry
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Entry #</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="journalTable">
+              <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.finance.getJournalEntries();
+    const tbody = document.getElementById('journalTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-edit"></i><h3>No Entries</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(j => `
+        <tr>
+          <td><strong>${j.entry_number}</strong></td>
+          <td>${j.date}</td>
+          <td>${j.description}</td>
+          <td style="color:var(--success)">$${j.total_debit.toLocaleString()}</td>
+          <td style="color:var(--danger)">$${j.total_credit.toLocaleString()}</td>
+          <td><span class="badge badge-${j.status==='Posted'?'success':'warning'}">${j.status}</span></td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('journalTable').innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-edit"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showAddJournalModal() {
+  openModal('New Journal Entry', `
+    <form id="journalForm">
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" class="form-input" id="jeDate" value="${new Date().toISOString().split('T')[0]}">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-textarea" id="jeDesc"></textarea>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveJournalEntry()"><i class="fas fa-save"></i> Save</button>
+  `);
+}
+
+async function saveJournalEntry() {
+  try {
+    await api.finance.createJournalEntry({
+      date: document.getElementById('jeDate').value,
+      description: document.getElementById('jeDesc').value
+    });
+    showToast('Journal entry created!', 'success');
+    closeModal();
+    renderJournal(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to create entry', 'error');
+  }
+}
+
+// ==================== INVOICES ====================
+async function renderInvoices(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-file-invoice-dollar"></i> Invoices</h3>
+        <button class="btn btn-primary" onclick="showAddInvoiceModal()">
+          <i class="fas fa-plus"></i> New Invoice
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="invoicesTable">
+              <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.finance.getInvoices();
+    const tbody = document.getElementById('invoicesTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-file-invoice-dollar"></i><h3>No Invoices</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(inv => `
+        <tr>
+          <td><strong>${inv.invoice_number}</strong></td>
+          <td>${inv.client_name}</td>
+          <td>${inv.date}</td>
+          <td><strong>$${inv.total.toLocaleString()}</strong></td>
+          <td><span class="badge badge-${inv.status==='Paid'?'success':'warning'}">${inv.status}</span></td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('invoicesTable').innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-file-invoice-dollar"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showAddInvoiceModal() {
+  openModal('New Invoice', `
+    <form id="invoiceForm">
+      <div class="form-group">
+        <label>Client Name</label>
+        <input type="text" class="form-input" id="invClient" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" class="form-input" id="invDate" value="${new Date().toISOString().split('T')[0]}">
+        </div>
+        <div class="form-group">
+          <label>Due Date</label>
+          <input type="date" class="form-input" id="invDue">
+        </div>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveInvoice()"><i class="fas fa-save"></i> Create</button>
+  `);
+}
+
+async function saveInvoice() {
+  try {
+    await api.finance.createInvoice({
+      client_name: document.getElementById('invClient').value,
+      date: document.getElementById('invDate').value,
+      due_date: document.getElementById('invDue').value
+    });
+    showToast('Invoice created!', 'success');
+    closeModal();
+    renderInvoices(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to create invoice', 'error');
+  }
+}
+
+// ==================== REPORTS ====================
+function renderReports(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-chart-line"></i> Financial Reports</h3>
+      </div>
+      <div class="card-body">
+        <div class="empty-state">
+          <i class="fas fa-chart-line"></i>
+          <h3>Reports Module</h3>
+          <p>Financial reports and analytics</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ==================== LEADS ====================
+async function renderLeads(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-funnel-dollar"></i> Leads</h3>
+        <button class="btn btn-primary" onclick="showAddLeadModal()">
+          <i class="fas fa-plus"></i> Add Lead
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTable">
+              <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.crm.getLeads();
+    const tbody = document.getElementById('leadsTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-funnel-dollar"></i><h3>No Leads</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(l => `
+        <tr>
+          <td><strong>${l.name}</strong></td>
+          <td>${l.company || '-'}</td>
+          <td>${l.email || '-'}</td>
+          <td><span class="badge badge-${l.status==='New'?'info':'success'}">${l.status}</span></td>
+          <td>
+            <button class="btn btn-icon btn-sm btn-secondary"><i class="fas fa-edit"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('leadsTable').innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-funnel-dollar"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showAddLeadModal() {
+  openModal('Add Lead', `
+    <form id="leadForm">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-input" id="leadName" required>
+      </div>
+      <div class="form-group">
+        <label>Company</label>
+        <input type="text" class="form-input" id="leadCompany">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-input" id="leadEmail">
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" class="form-input" id="leadPhone">
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveLead()"><i class="fas fa-save"></i> Save</button>
+  `);
+}
+
+async function saveLead() {
+  try {
+    await api.crm.createLead({
+      name: document.getElementById('leadName').value,
+      company: document.getElementById('leadCompany').value,
+      email: document.getElementById('leadEmail').value,
+      phone: document.getElementById('leadPhone').value
+    });
+    showToast('Lead added!', 'success');
+    closeModal();
+    renderLeads(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to add lead', 'error');
+  }
+}
+
+// ==================== CONTACTS ====================
+function renderContacts(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-address-book"></i> Contacts</h3>
+      </div>
+      <div class="card-body">
+        <div class="empty-state">
+          <i class="fas fa-address-book"></i>
+          <h3>Contacts Module</h3>
+          <p>Manage your contacts</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ==================== OPPORTUNITIES ====================
+function renderOpportunities(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-handshake"></i> Opportunities</h3>
+      </div>
+      <div class="card-body">
+        <div class="empty-state">
+          <i class="fas fa-handshake"></i>
+          <h3>Opportunities Module</h3>
+          <p>Track sales opportunities</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ==================== PROJECTS ====================
+async function renderProjects(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-project-diagram"></i> Projects</h3>
+        <button class="btn btn-primary" onclick="showAddProjectModal()">
+          <i class="fas fa-plus"></i> New Project
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Client</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="projectsTable">
+              <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.projects.getAll();
+    const tbody = document.getElementById('projectsTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-project-diagram"></i><h3>No Projects</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(p => `
+        <tr>
+          <td><strong>${p.name}</strong></td>
+          <td>${p.client || '-'}</td>
+          <td><span class="badge badge-${p.status==='Active'?'success':'warning'}">${p.status}</span></td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress blue" style="width:${p.progress}%"></div>
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-icon btn-sm btn-secondary"><i class="fas fa-eye"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('projectsTable').innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-project-diagram"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showAddProjectModal() {
+  openModal('New Project', `
+    <form id="projectForm">
+      <div class="form-group">
+        <label>Project Name</label>
+        <input type="text" class="form-input" id="projName" required>
+      </div>
+      <div class="form-group">
+        <label>Client</label>
+        <input type="text" class="form-input" id="projClient">
+      </div>
+      <div class="form-group">
+        <label>Budget</label>
+        <input type="number" class="form-input" id="projBudget">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" class="form-input" id="projStart">
+        </div>
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="date" class="form-input" id="projEnd">
+        </div>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveProject()"><i class="fas fa-save"></i> Create</button>
+  `);
+}
+
+async function saveProject() {
+  try {
+    await api.projects.create({
+      name: document.getElementById('projName').value,
+      client: document.getElementById('projClient').value,
+      budget: parseFloat(document.getElementById('projBudget').value) || 0,
+      start_date: document.getElementById('projStart').value,
+      end_date: document.getElementById('projEnd').value
+    });
+    showToast('Project created!', 'success');
+    closeModal();
+    renderProjects(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to create project', 'error');
+  }
+}
+
+// ==================== TASKS ====================
+async function renderTasks(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-tasks"></i> Tasks</h3>
+        <button class="btn btn-primary" onclick="showAddTaskModal()">
+          <i class="fas fa-plus"></i> New Task
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tasksTable">
+              <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.tasks.getAll();
+    const tbody = document.getElementById('tasksTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-tasks"></i><h3>No Tasks</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(t => `
+        <tr>
+          <td><strong>${t.title}</strong></td>
+          <td><span class="badge badge-${t.priority==='High'?'danger':t.priority==='Medium'?'warning':'gray'}">${t.priority}</span></td>
+          <td><span class="badge badge-${t.status==='Done'?'success':'info'}">${t.status}</span></td>
+          <td>${t.due_date || '-'}</td>
+          <td>
+            <button class="btn btn-icon btn-sm btn-secondary"><i class="fas fa-edit"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('tasksTable').innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-tasks"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showAddTaskModal() {
+  openModal('New Task', `
+    <form id="taskForm">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-input" id="taskTitle" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-textarea" id="taskDesc"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Priority</label>
+          <select class="form-input" id="taskPriority">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Due Date</label>
+          <input type="date" class="form-input" id="taskDue">
+        </div>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveTask()"><i class="fas fa-save"></i> Create</button>
+  `);
+}
+
+async function saveTask() {
+  try {
+    await api.tasks.create({
+      title: document.getElementById('taskTitle').value,
+      description: document.getElementById('taskDesc').value,
+      priority: document.getElementById('taskPriority').value,
+      due_date: document.getElementById('taskDue').value
+    });
+    showToast('Task created!', 'success');
+    closeModal();
+    renderTasks(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to create task', 'error');
+  }
+}
+
+// ==================== KANBAN BOARD ====================
+async function renderTaskBoard(container) {
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-columns"></i> Kanban Board</h3>
+      </div>
+      <div class="card-body">
+        <div class="kanban-board">
+          <div class="kanban-column">
+            <div class="kanban-column-header">
+              <h4>To Do</h4>
+              <span class="count">0</span>
+            </div>
+          </div>
+          <div class="kanban-column">
+            <div class="kanban-column-header">
+              <h4>In Progress</h4>
+              <span class="count">0</span>
+            </div>
+          </div>
+          <div class="kanban-column">
+            <div class="kanban-column-header">
+              <h4>Done</h4>
+              <span class="count">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ==================== SETTINGS ====================
+function renderSettings(container) {
+  const user = store.user || {};
+  
+  container.innerHTML = `
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-user"></i> Profile Settings</h3>
+        </div>
+        <div class="card-body">
+          <form id="profileForm" onsubmit="updateProfile(event); return false;">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" class="form-input" id="settingsFullName" value="${user.full_name || ''}" required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-input" id="settingsEmail" value="${user.email || ''}" required>
+            </div>
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" class="form-input" value="${user.username || ''}" disabled>
+              <small style="color:var(--text-light)">Username cannot be changed</small>
+            </div>
+            <div class="form-group">
+              <label>Current Role</label>
+              <input type="text" class="form-input" value="${ROLE_INFO[user.role]?.label || user.role}" disabled>
+              <small style="color:var(--text-light)">Role is assigned by administrator</small>
+            </div>
+            <div class="form-group">
+              <label>Department</label>
+              <input type="text" class="form-input" id="settingsDepartment" value="${user.department || ''}" placeholder="Your department">
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-lock"></i> Change Password</h3>
+        </div>
+        <div class="card-body">
+          <form id="passwordForm" onsubmit="changePassword(event); return false;">
+            <div class="form-group">
+              <label>Current Password</label>
+              <input type="password" class="form-input" id="currentPassword" required>
+            </div>
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" class="form-input" id="newPassword" minlength="6" required>
+            </div>
+            <div class="form-group">
+              <label>Confirm New Password</label>
+              <input type="password" class="form-input" id="confirmNewPassword" minlength="6" required>
+            </div>
+            <button type="submit" class="btn btn-warning">
+              <i class="fas fa-key"></i> Change Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    ${store.permissions?.can_invite ? `
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-user-plus"></i> Invite Team Members</h3>
+        </div>
+        <div class="card-body">
+          <form id="quickInviteForm" onsubmit="quickInvite(event); return false;">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="form-input" id="quickInviteEmail" placeholder="colleague@company.com" required>
+              </div>
+              <div class="form-group">
+                <label>Role</label>
+                <select class="form-input" id="quickInviteRole" required>
+                  <option value="employee">Employee</option>
+                  <option value="hr_manager">HR Manager</option>
+                  <option value="accountant">Accountant</option>
+                  <option value="project_manager">Project Manager</option>
+                  ${user.role === 'ceo' ? '<option value="ceo">CEO</option>' : ''}
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Department</label>
+                <input type="text" class="form-input" id="quickInviteDept" placeholder="Optional">
+              </div>
+              <div class="form-group" style="display:flex;align-items:flex-end">
+                <button type="submit" class="btn btn-primary btn-block">
+                  <i class="fas fa-paper-plane"></i> Send Invitation
+                </button>
+              </div>
+            </div>
+          </form>
+          <div style="margin-top:16px">
+            <button class="btn btn-secondary" onclick="navigateTo('invitations')">
+              <i class="fas fa-list"></i> View All Invitations
+            </button>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+  `;
+}
+
+async function updateProfile(e) {
+  e.preventDefault();
+  
+  try {
+    const updated = await api.auth.updateProfile({
+      full_name: document.getElementById('settingsFullName').value,
+      email: document.getElementById('settingsEmail').value,
+      department: document.getElementById('settingsDepartment').value
+    });
+    
+    store.user = updated;
+    localStorage.setItem('user', JSON.stringify(updated));
+    
+    document.getElementById('userName').textContent = updated.full_name || updated.username;
+    
+    showToast('Profile updated successfully!', 'success');
+  } catch (e) {
+    showToast('Failed to update profile', 'error');
+  }
+}
+
+async function changePassword(e) {
+  e.preventDefault();
+  
+  const newPass = document.getElementById('newPassword').value;
+  const confirmPass = document.getElementById('confirmNewPassword').value;
+  
+  if (newPass !== confirmPass) {
+    showToast('Passwords do not match', 'error');
+    return;
+  }
+  
+  try {
+    await api.auth.changePassword({
+      current_password: document.getElementById('currentPassword').value,
+      new_password: newPass
+    });
+    
+    showToast('Password changed successfully!', 'success');
+    document.getElementById('passwordForm').reset();
+  } catch (e) {
+    showToast('Failed to change password', 'error');
+  }
+}
+
+async function quickInvite(e) {
+  e.preventDefault();
+  
+  try {
+    const data = await api.auth.invite({
+      email: document.getElementById('quickInviteEmail').value,
+      role: document.getElementById('quickInviteRole').value,
+      department: document.getElementById('quickInviteDept').value || null
+    });
+    
+    const inviteUrl = `${window.location.origin}?invite=${data.code}`;
+    
+    showToast('Invitation sent! Link copied to clipboard.', 'success');
+    
+    navigator.clipboard.writeText(inviteUrl).catch(() => {});
+    
+    openModal('Invitation Sent', `
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        <span>Invitation sent to ${data.email}</span>
+      </div>
+      <div class="form-group">
+        <label>Share this link</label>
+        <input type="text" class="form-input" value="${inviteUrl}" readonly onclick="this.select()">
+      </div>
+      <button class="btn btn-secondary btn-block" onclick="navigator.clipboard.writeText('${inviteUrl}'); showToast('Copied!', 'success')">
+        <i class="fas fa-copy"></i> Copy Link
+      </button>
+    `, `
+      <button class="btn btn-primary" onclick="closeModal()">Done</button>
+    `);
+    
+    document.getElementById('quickInviteForm').reset();
+  } catch (e) {
+    showToast('Failed to send invitation', 'error');
+  }
+}
+
+// ==================== INVITATIONS ====================
+async function renderInvitations(container) {
+  if (!store.permissions?.can_invite) {
+    container.innerHTML = `
+      <div class="card">
+        <div class="card-body">
+          <div class="empty-state">
+            <i class="fas fa-lock"></i>
+            <h3>Access Denied</h3>
+            <p>You don't have permission to manage invitations</p>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-envelope"></i> Invitations</h3>
+        <button class="btn btn-primary" onclick="showSendInviteModal()">
+          <i class="fas fa-paper-plane"></i> Send Invitation
+        </button>
+      </div>
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Code</th>
+                <th>Status</th>
+                <th>Expires</th>
+              </tr>
+            </thead>
+            <tbody id="invitationsTable">
+              <tr><td colspan="5"><div class="loading"><i class="fas fa-spinner"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const data = await api.auth.getInvitations();
+    const tbody = document.getElementById('invitationsTable');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-envelope"></i><h3>No Invitations</h3></div></td></tr>';
+    } else {
+      tbody.innerHTML = data.map(inv => `
+        <tr>
+          <td><strong>${inv.email}</strong></td>
+          <td><span class="badge badge-info">${ROLE_INFO[inv.role]?.label || inv.role}</span></td>
+          <td><code>${inv.code}</code></td>
+          <td><span class="badge badge-${inv.status==='pending'?'warning':inv.status==='accepted'?'success':'danger'}">${inv.status}</span></td>
+          <td>${new Date(inv.expires_at).toLocaleDateString()}</td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    document.getElementById('invitationsTable').innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-envelope"></i><h3>No Records</h3></div></td></tr>';
+  }
+}
+
+function showSendInviteModal() {
+  openModal('Send Invitation', `
+    <form id="inviteForm">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" class="form-input" id="inviteEmail" required>
+      </div>
+      <div class="form-group">
+        <label>Role</label>
+        <select class="form-input" id="inviteRole" required>
+          <option value="employee">Employee</option>
+          <option value="hr_manager">HR Manager</option>
+          <option value="accountant">Accountant</option>
+          <option value="project_manager">Project Manager</option>
+          ${store.user?.role === 'ceo' ? '<option value="ceo">CEO</option>' : ''}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Department (Optional)</label>
+        <input type="text" class="form-input" id="inviteDept">
+      </div>
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        <span>An invitation link will be sent to this email</span>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="sendInvitation()"><i class="fas fa-paper-plane"></i> Send</button>
+  `);
+}
+
+async function sendInvitation() {
+  try {
+    const data = await api.auth.invite({
+      email: document.getElementById('inviteEmail').value,
+      role: document.getElementById('inviteRole').value,
+      department: document.getElementById('inviteDept').value || null
+    });
+    
+    const inviteUrl = `${window.location.origin}?invite=${data.code}`;
+    
+    openModal('Invitation Sent', `
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        <span>Invitation sent successfully!</span>
+      </div>
+      <div class="form-group">
+        <label>Invitation Link</label>
+        <input type="text" class="form-input" value="${inviteUrl}" readonly onclick="this.select()">
+      </div>
+      <p style="font-size:14px;color:var(--text-light)">Share this link with <strong>${data.email}</strong> to complete registration.</p>
+    `, `
+      <button class="btn btn-primary" onclick="closeModal()">Done</button>
+    `);
+    
+    renderInvitations(document.getElementById('pageContent'));
+  } catch (e) {
+    showToast('Failed to send invitation', 'error');
+  }
+}
+
+// ==================== INITIALIZATION ====================
+(async function init() {
+  console.log('=== Elham Progress ERP ===');
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const inviteCode = urlParams.get('invite');
+  
+  if (inviteCode) {
+    try {
+      const inviteData = await api.auth.verifyInvite(inviteCode);
+      
+      document.getElementById('regInviteCode').value = inviteCode;
+      document.getElementById('regEmail').value = inviteData.email;
+      document.getElementById('inviteEmail').textContent = inviteData.email;
+      document.getElementById('inviteRole').textContent = ROLE_INFO[inviteData.role]?.label || inviteData.role;
+      document.getElementById('invitationAlert').classList.remove('hidden');
+      
+      showPage('register');
+      showToast('Please complete your registration', 'info');
+    } catch (e) {
+      showToast('Invalid or expired invitation', 'error');
+      showPage('login');
+    }
+    return;
+  }
+  
+  const resetToken = urlParams.get('reset');
+  if (resetToken) {
+    document.getElementById('resetToken').value = resetToken;
+    showPage('reset');
+    return;
+  }
+  
+  if (store.token && store.user) {
+    try {
+      const permissions = await api.auth.permissions();
+      store.permissions = permissions;
+      localStorage.setItem('permissions', JSON.stringify(permissions));
+      enterApp();
+    } catch (e) {
+      handleLogout();
+    }
+  } else {
+    showPage('login');
+  }
+})();
+
+</script>
+</body>
+</html>
